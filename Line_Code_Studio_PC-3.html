@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Line_Code Studio</title>
+<style>
+:root{
+  --bg:#090b0f;--panel:#10141b;--panel2:#151b24;--border:#283342;
+  --text:#d9ffe0;--muted:#7d8b9b;--green:#63ff91;--blue:#67b7ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Consolas,"Courier New",monospace;height:100vh;overflow:hidden}
+.topbar{height:42px;background:#121720;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%;background:#ff6b6b}.dot:nth-child(2){background:#ffd166}.dot:nth-child(3){background:#63ff91}
+.brand{margin-left:10px;font-size:14px;font-weight:bold}.brand span{color:var(--green)}
+.status-top{margin-left:auto;color:var(--muted);font-size:12px}
+.app{height:calc(100vh - 42px);display:grid;grid-template-columns:230px 1fr 290px}
+.sidebar,.rightbar{background:var(--panel);border-right:1px solid var(--border);overflow:auto}
+.rightbar{border-right:none;border-left:1px solid var(--border)}
+.side-title{padding:16px 16px 10px;color:var(--muted);font-size:11px;letter-spacing:1px}
+.file{padding:9px 16px;color:#aeb9c7;cursor:pointer;font-size:13px}
+.file:hover,.file.active{background:#1a2230;color:var(--green)}
+.file::before{content:"▸ ";color:var(--blue)}
+.center{display:flex;flex-direction:column;min-width:0}
+.tabs{height:38px;background:#11161f;border-bottom:1px solid var(--border);display:flex}
+.tab{padding:11px 18px;font-size:12px;color:var(--muted);border-right:1px solid var(--border)}
+.tab.active{color:var(--text);background:#161d28;border-top:2px solid var(--green)}
+.workspace{flex:1;display:grid;grid-template-rows:1fr 42%;min-height:0}
+.editor{background:#0d1117;padding:20px;overflow:auto}
+.code{line-height:1.7;font-size:14px;color:#b9c7d8;white-space:pre-wrap}
+.kw{color:#67b7ff}.fn{color:#ffd166}.str{color:#8ce99a}.cm{color:#637083}
+.terminal{border-top:1px solid var(--border);background:#070a0d;padding:14px;overflow:auto}
+.terminal-head{color:var(--muted);font-size:12px;margin-bottom:8px}
+#output{min-height:120px;line-height:1.65;font-size:13px}
+.command{display:flex;gap:8px;align-items:center;margin-top:8px}
+.prompt{color:var(--green);font-weight:bold}
+input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:inherit;font-size:14px}
+.card{margin:14px;border:1px solid var(--border);background:var(--panel2);border-radius:8px;padding:13px}
+.card h3{font-size:12px;margin:0 0 12px;color:#c8d3e0}
+.bar{height:7px;background:#0a0d12;border-radius:10px;overflow:hidden;margin:8px 0 5px}
+.fill{height:100%;background:var(--green);width:72%;transition:width .4s}
+.metric{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.visual{min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center}
+.big{font-size:80px;animation:pop .35s ease-out}
+.desc{font-size:12px;color:#aab5c4;margin-top:10px;line-height:1.5}
+.command-list{font-size:11px;color:#9ba8b8;line-height:1.8}
+.badge{display:inline-block;padding:4px 7px;border:1px solid #355342;border-radius:5px;color:var(--green);font-size:10px;margin:2px}
+.footer{height:25px;background:#10151d;border-top:1px solid var(--border);color:var(--muted);font-size:11px;padding:5px 12px;display:flex;gap:20px}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar,.rightbar{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar">
+ <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+ <div class="brand"><span>LINE_CODE</span> STUDIO // PC EDITION</div>
+ <div class="status-top">● ONLINE &nbsp; | &nbsp; BUILD 2.0.0</div>
+</div>
+
+<div class="app">
+ <aside class="sidebar">
+  <div class="side-title">EXPLORADOR DE PROJETO</div>
+  <div class="file active">main.line</div>
+  <div class="file">visual_modules.line</div>
+  <div class="file">symbols.data</div>
+  <div class="file">system_config.json</div>
+  <div class="side-title">MÓDULOS ATIVOS</div>
+  <div class="file">🐱 Animal Engine</div>
+  <div class="file">✨ Symbol Renderer</div>
+  <div class="file">⚙ Command Processor</div>
+ </aside>
+
+ <main class="center">
+  <div class="tabs"><div class="tab active">main.line ✕</div><div class="tab">console.log</div></div>
+  <div class="workspace">
+   <section class="editor">
+<div class="code"><span class="cm">// LINE_CODE Studio - Ambiente visual de comandos</span>
+
+<span class="kw">import</span> { <span class="fn">VisualEngine</span> } <span class="kw">from</span> <span class="str">"line_modules"</span>;
+
+<span class="kw">const</span> command = <span class="str">"gato/Line_Code"</span>;
+
+<span class="kw">if</span> (command.valid) {
+    <span class="fn">VisualEngine.render</span>(command);
+    console.log(<span class="str">"[OK] Módulo carregado"</span>);
+}
+
+<span class="cm">// Digite comandos no terminal abaixo.</span>
+<span class="cm">// Formato: palavra/Line_Code</span></div>
+   </section>
+
+   <section class="terminal">
+    <div class="terminal-head">TERMINAL INTEGRADO — Digite <b>help/Line_Code</b> para ver os comandos</div>
+    <div id="output">
+      <div>[SYSTEM] Line_Code Studio iniciado.</div>
+      <div>[SYSTEM] Renderizador visual pronto.</div>
+      <div>[READY] Aguardando comando...</div>
+    </div>
+    <div class="command"><span class="prompt">developer@pc:~/project$</span><input id="cmd" autofocus autocomplete="off" placeholder="Digite um comando..."></div>
+   </section>
+  </div>
+  <div class="footer"><span>Ln 12, Col 1</span><span>UTF-8</span><span>Line_Code</span><span id="clock">--:--:--</span></div>
+ </main>
+
+ <aside class="rightbar">
+  <div class="card">
+   <h3>STATUS DO SISTEMA</h3>
+   <div class="metric"><span>PROCESSAMENTO</span><span id="cpu">72%</span></div><div class="bar"><div class="fill" id="cpuBar"></div></div>
+   <div class="metric"><span>MEMÓRIA</span><span>48%</span></div><div class="bar"><div class="fill" style="width:48%"></div></div>
+   <div class="metric"><span>MÓDULOS</span><span>15 ONLINE</span></div>
+  </div>
+  <div class="card">
+   <h3>VISUAL OUTPUT</h3>
+   <div class="visual" id="visual"><div><div class="big">💻</div><div class="desc">Execute um comando para gerar uma representação visual.</div></div></div>
+  </div>
+  <div class="card">
+   <h3>COMANDOS</h3>
+   <div class="command-list">
+    <span class="badge">gato</span><span class="badge">cachorro</span><span class="badge">fogo</span>
+    <span class="badge">estrela</span><span class="badge">coração</span><span class="badge">dinheiro</span>
+    <span class="badge">planeta</span><span class="badge">lua</span><span class="badge">sol</span>
+    <span class="badge">robô</span><span class="badge">dragão</span><span class="badge">pizza</span>
+   </div>
+  </div>
+ </aside>
+</div>
+
+<script>
+const data = {
+ "gato":["🐱","Módulo Felino","Criatura curiosa detectada e renderizada."],
+ "cachorro":["🐶","Módulo Canino","Companheiro canino carregado."],
+ "fogo":["🔥","Energia Térmica","Fonte de energia visual ativada."],
+ "estrela":["⭐","Sistema Estelar","Objeto luminoso renderizado."],
+ "coração":["❤️","Energia Positiva","Símbolo emocional carregado."],
+ "dinheiro":["💰","Dados Financeiros","Representação financeira visual criada."],
+ "planeta":["🌍","Sistema Planetário","Ambiente terrestre sincronizado."],
+ "lua":["🌙","Modo Noturno","Satélite natural carregado."],
+ "sol":["☀️","Fonte Solar","Iluminação máxima ativada."],
+ "robo":["🤖","Unidade Robótica","Inteligência mecânica detectada."],
+ "robô":["🤖","Unidade Robótica","Inteligência mecânica detectada."],
+ "dragao":["🐉","Criatura Lendária","Entidade fantástica carregada."],
+ "dragão":["🐉","Criatura Lendária","Entidade fantástica carregada."],
+ "pizza":["🍕","Protocolo Alimentar","Recurso gastronômico encontrado."],
+ "flor":["🌸","Módulo Natural","Elemento da natureza renderizado."],
+ "caveira":["💀","Modo Misterioso","Símbolo enigmático ativado."]
+};
+
+const cmd=document.getElementById("cmd"),out=document.getElementById("output"),visual=document.getElementById("visual");
+
+function add(t){const d=document.createElement("div");d.textContent=t;out.appendChild(d);out.parentElement.scrollTop=out.parentElement.scrollHeight}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function run(raw){
+ const c=raw.trim(), lower=c.toLowerCase();
+ if(!c)return;
+ add("developer@pc:~/project$ "+c);
+
+ if(lower==="clear"||lower==="limpar"){
+   out.innerHTML="<div>[SYSTEM] Terminal limpo.</div>";visual.innerHTML='<div><div class="big">🧹</div><div class="desc">Workspace limpo.</div></div>';cmd.value="";return;
+ }
+ if(lower==="help/line_code"){
+   add("[HELP] Use: palavra/Line_Code");
+   add("[HELP] Exemplos: gato, fogo, estrela, coração, planeta, robô, dragão.");
+   cmd.value="";return;
+ }
+ if(!lower.endsWith("/line_code")){
+   add("[ERROR] Formato inválido. Use palavra/Line_Code");
+   visual.innerHTML='<div><div class="big">⚠️</div><div class="desc">Comando não reconhecido.</div></div>';
+   cmd.value="";return;
+ }
+ const word=lower.slice(0,-10).trim();
+ const item=data[word];
+ if(item){
+   add("[EXEC] Carregando módulo: "+word.toUpperCase());
+   add("[OK] "+item[1]+" inicializado.");
+   visual.innerHTML=`<div><div class="big">${item[0]}</div><div class="desc"><b>${item[1]}</b><br>${item[2]}</div></div>`;
+ }else{
+   add("[INFO] Palavra detectada: "+word.toUpperCase());
+   add("[OK] Criando símbolo genérico.");
+   visual.innerHTML=`<div><div class="big">✨</div><div class="desc"><b>${esc(word)}</b><br>Comando reconhecido, mas sem módulo específico.</div></div>`;
+ }
+ const n=Math.floor(45+Math.random()*50);
+ document.getElementById("cpu").textContent=n+"%";
+ document.getElementById("cpuBar").style.width=n+"%";
+ cmd.value="";
+}
+cmd.addEventListener("keydown",e=>{if(e.key==="Enter")run(cmd.value)});
+setInterval(()=>{document.getElementById("clock").textContent=new Date().toLocaleTimeString("pt-BR")},1000);
+</script>
+</body>
+</html>
